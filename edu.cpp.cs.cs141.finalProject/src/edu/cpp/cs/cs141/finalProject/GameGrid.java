@@ -92,12 +92,12 @@ public class GameGrid
 		for (int i=0; i<ninjas.length;)
 		{
 			ranNum=(int)(Math.random()*81);
-			if (grid[ranNum%9][(int)(ranNum/9)].getIsNinjaOccupying()==false
-				&&grid[ranNum%9][(int)(ranNum/9)].getIsBriefcaseOccupying()==false
-				&&ranNum%9<6 && ((int)(ranNum/9)>2))
+			if (grid[(int)(ranNum/9)][ranNum%9].getIsNinjaOccupying()==false
+				&&grid[(int)(ranNum/9)][ranNum%9].getIsBriefcaseOccupying()==false
+				&&(ranNum%9>2 || ((int)(ranNum/9)<6))) 
 			{
-				grid[ranNum%9][(int)(ranNum/9)].toggleIsNinjaOccupying();
-				ninjas[i] = new Ninja(ranNum%9, (int)(ranNum/9));
+				grid[(int)(ranNum/9)][ranNum%9].toggleIsNinjaOccupying();
+				ninjas[i] = new Ninja((int)(ranNum/9), ranNum%9);
 				++i;
 			}
 		}
@@ -141,21 +141,22 @@ public class GameGrid
 	 * and does not already have a powerUp, set the power up there. 
 	 * continues to choose a random spot until the power up is set
 	 */
-	public void setPowerUp(String powerUp)
+	public void setPowerUp(String powerUp) //pass the power up to place on grid (See setAllPowerUps)
 	{
-		int ranNum;
-		boolean done=false;
-		do
+		int ranNum;         //create an int 
+		boolean done=false; // create a boolean for the do/while loop
+		do                  //do/while loop, do once but continue while done==false
 		{ 
-			ranNum=(int)(Math.random()*81);
-			if(grid[ranNum%9][(int)(ranNum/9)].getPowerup()==null 
-				&& grid[ranNum%9][(int)(ranNum/9)].getIsBriefcaseOccupying()==false
-				&&ranNum!=72)
+			//the %9 operator gives the
+			ranNum=(int)(Math.random()*81); //creates a random int between 0-80 (1 for each spot on grid)
+			if(grid[(int)(ranNum/9)][ranNum%9].getPowerup()==null   //makes sure there is no power up on spot
+				&& grid[(int)(ranNum/9)][ranNum%9].getIsBriefcaseOccupying()==false //makes sure the spot does not have the briefcase on it
+				&&ranNum!=72) //the spot is not the bottom left (player starting location)
 			{
-				grid[ranNum%9][(int)(ranNum/9)].setPowerup(powerUp);
-				done=true;
+				grid[(int)(ranNum/9)][(int)(ranNum%9)].setPowerup(powerUp); //set the powerUp to that location
+				done=true;                          //set done to true to end loop
 			}
-		}while (done==false);
+		}while (done==false); //rest of do/while loop
 		
 	}
 		
