@@ -10,14 +10,8 @@ public class Main {
 		 * any saving
 		 * shooting
 		 */
-		//Make a new gamegrid
-		GameGrid g = new GameGrid();
-		//set debug mode to true (default is false)
-		g.toggleDebugMode();
-		//randomize ninjas
-		g.randomizeNinjas();
-		//print the grid
-		g.printGrid();
+		GameEngine game = new GameEngine();
+		UI.start();
 
 	}
 
