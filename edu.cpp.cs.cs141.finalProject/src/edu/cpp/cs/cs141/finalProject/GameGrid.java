@@ -138,7 +138,7 @@ public class GameGrid
 				
 				if ((i+1)%3==0 && (j+1)%3==0)
 				{
-					grid[i-2][j].toggleIsRoom();
+					grid[i-1][j-1].toggleIsRoom();
 				}
 			}
 		}
@@ -192,31 +192,31 @@ public class GameGrid
 		switch(ranNum)
 		{
 		case 1:
-			grid[0][2].toggleIsBriefcaseOccupying();
+			grid[1][1].toggleIsBriefcaseOccupying();
 			break;
 		case 2:
-			grid[0][5].toggleIsBriefcaseOccupying();
+			grid[1][4].toggleIsBriefcaseOccupying();
 			break;
 		case 3:
-			grid[0][8].toggleIsBriefcaseOccupying();
+			grid[1][7].toggleIsBriefcaseOccupying();
 			break;
 		case 4:
-			grid[3][2].toggleIsBriefcaseOccupying();
+			grid[4][1].toggleIsBriefcaseOccupying();
 			break;
 		case 5:
-			grid[3][5].toggleIsBriefcaseOccupying();
+			grid[4][4].toggleIsBriefcaseOccupying();
 			break;
 		case 6:
-			grid[3][8].toggleIsBriefcaseOccupying();
+			grid[4][7].toggleIsBriefcaseOccupying();
 			break;
 		case 7:
-			grid[6][2].toggleIsBriefcaseOccupying();
+			grid[7][1].toggleIsBriefcaseOccupying();
 			break;
 		case 8:
-			grid[6][5].toggleIsBriefcaseOccupying();
+			grid[7][4].toggleIsBriefcaseOccupying();
 			break;
 		case 9:
-			grid[6][8].toggleIsBriefcaseOccupying();
+			grid[7][7].toggleIsBriefcaseOccupying();
 			break;
 		}
 		
