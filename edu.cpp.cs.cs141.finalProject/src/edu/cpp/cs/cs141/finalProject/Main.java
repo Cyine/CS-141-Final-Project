@@ -18,6 +18,12 @@ public class Main {
 		g.randomizeNinjas();
 		//print the grid
 		g.printGrid();
+		System.out.println();
+		g.toggleDebugMode();
+		//g.printGrid();
+		System.out.println();
+		//g.movePlayer('W');
+		//g.printGrid();
 
 	}
 

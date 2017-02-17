@@ -58,6 +58,27 @@ public class GameGrid
 	 * ----------------------------------
 	 */
 	
+	public void movePlayer(char direction)
+	{
+		if (direction == 'W')
+		{
+			
+		}
+		else if (direction == 'A')
+		{
+			
+		}
+		else if (direction == 'S')
+		{
+			
+		}
+		else if(direction == 'D')
+		{
+			
+		}
+			
+	}
+	
 	/**
 	 * sets debug mode to its opposite value
 	 */
@@ -92,9 +113,9 @@ public class GameGrid
 		for (int i=0; i<ninjas.length;)
 		{
 			ranNum=(int)(Math.random()*81);
-			if (grid[(int)(ranNum/9)][ranNum%9].getIsNinjaOccupying()==false
-				&&grid[(int)(ranNum/9)][ranNum%9].getIsBriefcaseOccupying()==false
-				&&(ranNum%9>2 || ((int)(ranNum/9)<6))) 
+			if (grid[(int)(ranNum/9)][ranNum%9].getIsNinjaOccupying()==false &&
+				grid[(int)(ranNum/9)][ranNum%9].getIsBriefcaseOccupying()==false &&
+			    (ranNum%9>2 || ((int)(ranNum/9)<6))) 
 			{
 				grid[(int)(ranNum/9)][ranNum%9].toggleIsNinjaOccupying();
 				ninjas[i] = new Ninja((int)(ranNum/9), ranNum%9);

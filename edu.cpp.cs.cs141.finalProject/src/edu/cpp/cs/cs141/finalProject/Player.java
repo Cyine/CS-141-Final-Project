@@ -25,7 +25,7 @@ public class Player
 	 */
 	public Player ()
 	{
-		setPlayerPos(1,1);
+		setPlayerPos(8,0);
 		hasAmmo=true;
 		hasOvershield=false;
 		lives=3;
@@ -106,6 +106,15 @@ public class Player
 	{
 		xPos=x;
 		yPos=y;
+	}
+	public void changeXPos(int x)
+	{
+		xPos=xPos+x;
+	}
+	
+	public void changeYPos(int y)
+	{
+		yPos=yPos+y;
 	}
 	
 	/**
