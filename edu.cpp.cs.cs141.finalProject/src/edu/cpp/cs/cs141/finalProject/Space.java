@@ -88,6 +88,10 @@ public class Space
 	{
 		return yPos;
 	}
+	public boolean getIsPlayerOccuyping()
+	{
+		return isPlayerOccupying;
+	}
 	
 	public boolean getIsNinjaOccupying()
 	{
@@ -96,6 +100,10 @@ public class Space
 	public boolean getIsBriefcaseOccupying()
 	{
 		return isBriefcaseOccupying;
+	}
+	public boolean getIsRoom()
+	{
+		return isRoom;
 	}
 	
 	public boolean getIsVisible()
@@ -133,6 +141,11 @@ public class Space
 				}
 				if(isNinjaOccupying==false)
 				{
+					if(isRoom==true)
+					{
+						return"[R]";
+					}
+					
 					if(powerUp!=null)
 					{
 						switch (powerUp.getType())

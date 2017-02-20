@@ -11,7 +11,9 @@ public class Main {
 		 * shooting
 		 */
 		GameEngine game = new GameEngine();
-		UI.start();
+		UI ui = new UI(game);
+		
+		ui.start();
 
 	}
 

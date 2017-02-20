@@ -102,7 +102,7 @@ public class Player
 		hasOvershield=true;
 	}
 	
-	public void setPlayerPos(int x, int y)
+	public void setPlayerPos(int y, int x)
 	{
 		xPos=x;
 		yPos=y;
