@@ -23,12 +23,13 @@ public class GameGrid
 	 */
 	public GameGrid ()
 	{
-		grid= new Space[9][9];
+		setGrid(new Space[9][9]);
 		defineGrid();
 		player = new Player();
 		setPlayerPos(8,0);
 		setAllPowerUps();
 		ninjas = new Ninja[6];
+		randomizeNinjas();
 		isDebugModeOn=false;
 		
 	}
@@ -58,26 +59,160 @@ public class GameGrid
 	 * ----------------------------------
 	 */
 	
-	public void movePlayer(char direction)
+	/**
+	 * @param direction
+	 * Takes direction W for up S for down A for left and D for right
+	 * 
+	 * moves player respective direction as long as it is not at edge of grid
+	 * Does this by changing player position and changing the spaces that have isPlayerOccupying==true
+	 */
+	public void toggleLightsOn(char direction)
 	{
 		if (direction == 'W')
 		{
-			
+			if(player.getYPos()>0)
+				grid[player.getYPos()-1][player.getXPos()].toggleIsVisible();
+			if(player.getYPos()>1)
+			grid[player.getYPos()-2][player.getXPos()].toggleIsVisible();
 		}
 		else if (direction == 'A')
 		{
-			
+			if(player.getXPos()>0)
+				grid[player.getYPos()][player.getXPos()-1].toggleIsVisible();
+			if(player.getXPos()>1)
+				grid[player.getYPos()][player.getXPos()-2].toggleIsVisible();
 		}
-		else if (direction == 'S')
+		else if (direction == 'S'&&player.getYPos()!=8)
 		{
-			
+			if(player.getYPos()<8)
+				grid[player.getYPos()+1][player.getXPos()].toggleIsVisible();
+			if(player.getYPos()<7)
+				grid[player.getYPos()+2][player.getXPos()].toggleIsVisible();
 		}
-		else if(direction == 'D')
+		else if(direction == 'D'&&player.getXPos()!=8)
 		{
-			
+			if(player.getXPos()<8)
+				grid[player.getYPos()][player.getXPos()+1].toggleIsVisible();
+			if(player.getXPos()<7)
+				grid[player.getYPos()][player.getXPos()+2].toggleIsVisible();
 		}
-			
+		
 	}
+	
+	
+	public void movePlayer(char direction)
+	{ 
+		if (direction == 'W'&&player.getYPos()!=0)
+		{
+			grid[player.getYPos()][player.getXPos()].toggleIsPlayerOccupying();
+			player.changeYPos(-1);
+			grid[player.getYPos()][player.getXPos()].toggleIsPlayerOccupying();
+		}
+		else if (direction == 'A'&&player.getXPos()!=0)
+		{
+			grid[player.getYPos()][player.getXPos()].toggleIsPlayerOccupying();
+			player.changeXPos(-1);
+			grid[player.getYPos()][player.getXPos()].toggleIsPlayerOccupying();
+		}
+		else if (direction == 'S'&&player.getYPos()!=8)
+		{
+			grid[player.getYPos()][player.getXPos()].toggleIsPlayerOccupying();
+			player.changeYPos(1);
+			grid[player.getYPos()][player.getXPos()].toggleIsPlayerOccupying();
+		}
+		else if(direction == 'D'&&player.getXPos()!=8)
+		{
+			grid[player.getYPos()][player.getXPos()].toggleIsPlayerOccupying();
+			player.changeXPos(1);
+			grid[player.getYPos()][player.getXPos()].toggleIsPlayerOccupying();
+		}
+	}
+	
+	public int getNinjaDirection(Ninja ninja)
+	{
+		if(ninja.getYPos()!=0&&
+				grid[ninja.getYPos()-1][ninja.getXPos()].getIsPlayerOccuyping()&&
+				!grid[ninja.getYPos()-1][ninja.getXPos()].getIsNinjaOccupying())
+		{
+			return 0;
+		}
+		else if(ninja.getXPos()!=0&&
+				grid[ninja.getYPos()][ninja.getXPos()-1].getIsPlayerOccuyping()&&
+				!grid[ninja.getYPos()][ninja.getXPos()-1].getIsNinjaOccupying())
+		{
+			return 1;
+		}
+		else if(ninja.getYPos()!=8&&
+				grid[ninja.getYPos()+1][ninja.getXPos()].getIsPlayerOccuyping()&&
+				!grid[ninja.getYPos()+1][ninja.getXPos()].getIsNinjaOccupying())
+		{
+			return 2;
+		}
+		else if(ninja.getXPos()!=8&&
+				grid[ninja.getYPos()][ninja.getXPos()+1].getIsPlayerOccuyping()&&
+				!grid[ninja.getYPos()][ninja.getXPos()+1].getIsNinjaOccupying())
+		{
+			return 3;
+		}
+		return ((int)(Math.random()*4));
+	}
+	public void moveNinjas()
+	{
+		System.out.println("moveNinjas");
+		int ranNum;
+		
+		
+		for(int i=0; i<ninjas.length;)
+		{
+			if(ninjas[i].getIsAlive())
+			{
+			ranNum = getNinjaDirection(ninjas[i]);
+			
+			if (ranNum == 0&&ninjas[i].getYPos()!=0&&
+				!grid[ninjas[i].getYPos()-1][ninjas[i].getXPos()].getIsBriefcaseOccupying()&&
+				!grid[ninjas[i].getYPos()-1][ninjas[i].getXPos()].getIsNinjaOccupying())
+			{
+				grid[ninjas[i].getYPos()][ninjas[i].getXPos()].toggleIsNinjaOccupying();
+				ninjas[i].changeYPos(-1);
+				grid[ninjas[i].getYPos()][ninjas[i].getXPos()].toggleIsNinjaOccupying();
+				++i;
+			}
+			else if (ranNum == 1&&ninjas[i].getXPos()!=0&&
+					!grid[ninjas[i].getYPos()][ninjas[i].getXPos()-1].getIsBriefcaseOccupying()&&
+					!grid[ninjas[i].getYPos()][ninjas[i].getXPos()-1].getIsNinjaOccupying())
+			{
+				grid[ninjas[i].getYPos()][ninjas[i].getXPos()].toggleIsNinjaOccupying();
+				ninjas[i].changeXPos(-1);
+				grid[ninjas[i].getYPos()][ninjas[i].getXPos()].toggleIsNinjaOccupying();
+				++i;
+			}
+			else if (ranNum == 2&&ninjas[i].getYPos()!=8&&
+					!grid[ninjas[i].getYPos()+1][ninjas[i].getXPos()].getIsBriefcaseOccupying()&&
+					!grid[ninjas[i].getYPos()+1][ninjas[i].getXPos()].getIsNinjaOccupying())
+			{
+				grid[ninjas[i].getYPos()][ninjas[i].getXPos()].toggleIsNinjaOccupying();
+				ninjas[i].changeYPos(1);
+				grid[ninjas[i].getYPos()][ninjas[i].getXPos()].toggleIsNinjaOccupying();
+				++i;
+			}
+			else if(ranNum == 3&&ninjas[i].getXPos()!=8&&
+					!grid[ninjas[i].getYPos()][ninjas[i].getXPos()+1].getIsBriefcaseOccupying()&&
+					!grid[ninjas[i].getYPos()][ninjas[i].getXPos()+1].getIsNinjaOccupying())
+			{
+				grid[ninjas[i].getYPos()][ninjas[i].getXPos()].toggleIsNinjaOccupying();
+				ninjas[i].changeXPos(1);
+				grid[ninjas[i].getYPos()][ninjas[i].getXPos()].toggleIsNinjaOccupying();
+				++i;
+			}
+			}
+			else 
+			{
+				++i;
+			}
+
+		}
+	}
+	
 	
 	/**
 	 * sets debug mode to its opposite value
@@ -94,10 +229,10 @@ public class GameGrid
 	 * 
 	 * set player to coordinates given
 	 */
-	public void setPlayerPos(int x, int y)
+	public void setPlayerPos(int y, int x)
 	{
-		player.setPlayerPos(x,y);
-		grid[x][y].toggleIsPlayerOccupying();
+		player.setPlayerPos(y,x);
+		getGrid()[y][x].toggleIsPlayerOccupying();
 	}
 	
 	/**
@@ -106,6 +241,50 @@ public class GameGrid
 	 * There is no briefcase in that space
 	 * The player is not 2 squares away from ninjas
 	 */
+	
+	public void shoot (char direction)
+	{
+		if(direction=='W')
+		{
+			for (int i = player.getYPos()-1; i>0; --i)
+			{
+				if(grid[i][player.getXPos()].getIsNinjaOccupying())
+				{
+					grid[i][player.getXPos()].toggleIsNinjaOccupying();
+				}
+			}
+		}
+		else if(direction=='A')
+		{
+			for (int i = player.getXPos()-1; i>0; --i)
+			{
+				if(grid[player.getYPos()][i].getIsNinjaOccupying())
+				{
+					grid[player.getYPos()][i].toggleIsNinjaOccupying();
+				}
+			}
+		}
+		else if(direction=='S')
+		{
+			for (int i = player.getYPos()+1; i<8; ++i)
+			{
+				if(grid[i][player.getXPos()].getIsNinjaOccupying())
+				{
+					grid[i][player.getXPos()].toggleIsNinjaOccupying();
+				}
+			}
+		}
+		else if(direction=='D')
+		{
+			for (int i = player.getXPos()+1; i<8; ++i)
+			{
+				if(grid[player.getYPos()][i].getIsNinjaOccupying())
+				{
+					grid[player.getYPos()][i].toggleIsNinjaOccupying();
+				}
+			}
+		}
+	}
 	public void randomizeNinjas()
 	{
 		int ranNum;
@@ -113,11 +292,11 @@ public class GameGrid
 		for (int i=0; i<ninjas.length;)
 		{
 			ranNum=(int)(Math.random()*81);
-			if (grid[(int)(ranNum/9)][ranNum%9].getIsNinjaOccupying()==false &&
-				grid[(int)(ranNum/9)][ranNum%9].getIsBriefcaseOccupying()==false &&
+			if (getGrid()[(int)(ranNum/9)][ranNum%9].getIsNinjaOccupying()==false &&
+				getGrid()[(int)(ranNum/9)][ranNum%9].getIsRoom()==false &&
 			    (ranNum%9>2 || ((int)(ranNum/9)<6))) 
 			{
-				grid[(int)(ranNum/9)][ranNum%9].toggleIsNinjaOccupying();
+				getGrid()[(int)(ranNum/9)][ranNum%9].toggleIsNinjaOccupying();
 				ninjas[i] = new Ninja((int)(ranNum/9), ranNum%9);
 				++i;
 			}
@@ -130,15 +309,15 @@ public class GameGrid
 	 */
 	public void defineGrid()
 	{
-		for (int i=0; i<grid.length;++i)
+		for (int i=0; i<getGrid().length;++i)
 		{
-			for(int j=0; j<grid[0].length; ++j)
+			for(int j=0; j<getGrid()[0].length; ++j)
 			{
-				grid[i][j]= new Space(i, j);
+				getGrid()[i][j]= new Space(i, j);
 				
 				if ((i+1)%3==0 && (j+1)%3==0)
 				{
-					grid[i-2][j].toggleIsRoom();
+					getGrid()[i-1][j-1].toggleIsRoom();
 				}
 			}
 		}
@@ -170,11 +349,11 @@ public class GameGrid
 		{ 
 			//the %9 operator gives the
 			ranNum=(int)(Math.random()*81); //creates a random int between 0-80 (1 for each spot on grid)
-			if(grid[(int)(ranNum/9)][ranNum%9].getPowerup()==null   //makes sure there is no power up on spot
-				&& grid[(int)(ranNum/9)][ranNum%9].getIsBriefcaseOccupying()==false //makes sure the spot does not have the briefcase on it
+			if(getGrid()[(int)(ranNum/9)][ranNum%9].getPowerup()==null   //makes sure there is no power up on spot
+				&& getGrid()[(int)(ranNum/9)][ranNum%9].getIsBriefcaseOccupying()==false //makes sure the spot does not have the briefcase on it
 				&&ranNum!=72) //the spot is not the bottom left (player starting location)
 			{
-				grid[(int)(ranNum/9)][(int)(ranNum%9)].setPowerup(powerUp); //set the powerUp to that location
+				getGrid()[(int)(ranNum/9)][(int)(ranNum%9)].setPowerup(powerUp); //set the powerUp to that location
 				done=true;                          //set done to true to end loop
 			}
 		}while (done==false); //rest of do/while loop
@@ -192,56 +371,42 @@ public class GameGrid
 		switch(ranNum)
 		{
 		case 1:
-			grid[0][2].toggleIsBriefcaseOccupying();
+			getGrid()[1][1].toggleIsBriefcaseOccupying();
 			break;
 		case 2:
-			grid[0][5].toggleIsBriefcaseOccupying();
+			getGrid()[1][4].toggleIsBriefcaseOccupying();
 			break;
 		case 3:
-			grid[0][8].toggleIsBriefcaseOccupying();
+			getGrid()[1][7].toggleIsBriefcaseOccupying();
 			break;
 		case 4:
-			grid[3][2].toggleIsBriefcaseOccupying();
+			getGrid()[4][1].toggleIsBriefcaseOccupying();
 			break;
 		case 5:
-			grid[3][5].toggleIsBriefcaseOccupying();
+			getGrid()[4][4].toggleIsBriefcaseOccupying();
 			break;
 		case 6:
-			grid[3][8].toggleIsBriefcaseOccupying();
+			getGrid()[4][7].toggleIsBriefcaseOccupying();
 			break;
 		case 7:
-			grid[6][2].toggleIsBriefcaseOccupying();
+			getGrid()[7][1].toggleIsBriefcaseOccupying();
 			break;
 		case 8:
-			grid[6][5].toggleIsBriefcaseOccupying();
+			getGrid()[7][4].toggleIsBriefcaseOccupying();
 			break;
 		case 9:
-			grid[6][8].toggleIsBriefcaseOccupying();
+			getGrid()[7][7].toggleIsBriefcaseOccupying();
 			break;
 		}
 		
 	}
-	
-	/**-------------------------------------------
-	 * PRINT METHODS
-	 * -------------------------------------------
-	 */
-	
-	/**
-	 * Prints grid in 9x9 fashion 
-	 */
-	public void printGrid()
-	{
-		for (int i=0; i<grid.length;++i)
-		{
-			System.out.println("");
-			
-			for(int j=0; j<grid[0].length; ++j)
-			{
-				System.out.print(grid[i][j].returnString(isDebugModeOn));
-			}
-		}
+
+	public Space[][] getGrid() {
+		return grid;
 	}
-	
+
+	public void setGrid(Space[][] theGrid) {
+		grid = theGrid;
+	}
 	
 }

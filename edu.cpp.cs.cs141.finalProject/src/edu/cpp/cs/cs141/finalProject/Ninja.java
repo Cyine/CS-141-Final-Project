@@ -8,7 +8,7 @@ public class Ninja
 	 */
 	private int xPos;
 	private int yPos;
-	
+	private boolean isAlive;
 	
 	/**
 	 * @param x
@@ -16,10 +16,11 @@ public class Ninja
 	 * 
 	 * sets ninja on grid
 	 */
-	public Ninja (int x, int y)
+	public Ninja (int y, int x)
 	{
 		xPos=x;
 		yPos=y;
+		isAlive=true;
 	}
 	
 	/**------------------------------------------
@@ -35,6 +36,11 @@ public class Ninja
 	public int getYPos()
 	{
 		return yPos;
+	}
+	
+	public boolean getIsAlive()
+	{
+		return isAlive;
 	}
 	
 	/** ---------------------------------------------------
