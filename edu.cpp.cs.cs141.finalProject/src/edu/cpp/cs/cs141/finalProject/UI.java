@@ -163,5 +163,4 @@ public class UI
 	{
 		scanner.nextLine();
 	}
-
 }
