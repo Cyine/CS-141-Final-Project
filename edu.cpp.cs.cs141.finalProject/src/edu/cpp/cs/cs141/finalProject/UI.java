@@ -19,8 +19,10 @@ public class UI
 		gE.setupNewGame();
 		printGrid();
 		System.out.println("");
+		//gE.getGameGrid().toggleDebugMode();
 		//print the grid
 		startGameLoop();
+
 		
 	}
 	
@@ -44,8 +46,7 @@ public class UI
 				System.out.println("\nInput direction to shoot(WASD)D");
 				gE.shoot(getCharInput());
 			}
-			
-			
+			gE.moveNinjas();
 		}while(gE.getIsGameRunning()==true);
 		printEndingScreen();
 	}
