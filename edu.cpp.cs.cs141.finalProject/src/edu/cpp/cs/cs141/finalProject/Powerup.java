@@ -23,10 +23,23 @@ public class Powerup
 	}
 
 	/**
-	 * Depending on powerup type does something to player (gives ammo/ overshield/shows where brief case is)
+	 * Depending on powerup type does something to player 
+	 * (gives ammo/ overshield/shows where brief case is)
 	 */
 	public void usePowerup(Player player)
 	{
-		//CODE NOT IMPLEMENTED YET
+		if (type=="bullet")
+		{
+			player.fillAmmo();
+		}
+		if (type=="shield")
+		{
+			player.fillOverShield();
+		}
+		if (type=="radar")
+		{
+			player.pickUpRadar();
+		}
+		type="used";
 	}
 }
