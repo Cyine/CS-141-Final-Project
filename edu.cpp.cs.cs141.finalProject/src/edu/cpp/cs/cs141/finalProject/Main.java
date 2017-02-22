@@ -13,7 +13,7 @@ public class Main {
 		GameEngine game = new GameEngine();
 		UI ui = new UI(game);
 		
-		ui.start();
+		ui.openTitleScreen();
 
 	}
 

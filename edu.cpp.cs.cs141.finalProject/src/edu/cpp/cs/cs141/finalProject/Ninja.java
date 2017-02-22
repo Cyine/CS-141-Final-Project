@@ -5,6 +5,7 @@ public class Ninja
 	/**
 	 * xPos has ninja's x coordinate
 	 * yPos has ninja's y coordinate
+	 * isAlive tells gameGrid if the Ninja is alive (moves and is shown)
 	 */
 	private int xPos;
 	private int yPos;
@@ -20,6 +21,10 @@ public class Ninja
 	{
 		xPos=x;
 		yPos=y;
+		isAlive=true;
+	}
+	public Ninja ()
+	{
 		isAlive=true;
 	}
 	
@@ -42,20 +47,47 @@ public class Ninja
 	{
 		return isAlive;
 	}
+
 	
 	/** ---------------------------------------------------
 	 * MUTATOR METHODS
 	 * ----------------------------------------------------
 	 */
+	/**
+	 * @param y
+	 * @param x
+	 * sets player pos to y, x
+	 */
+	public void setPos(int y, int x)
+	{
+		yPos=y;
+		xPos=x;
+	}
 	
+	/**
+	 * @param change
+	 * add change to xPos
+	 */
 	public void changeXPos(int change)
 	{
 		xPos=xPos+change;
 	}
 	
+	/**
+	 * @param change
+	 * adds change to yPos
+	 */
 	public void changeYPos(int change)
 	{
 		yPos=yPos+change;
+	}
+	
+	/**
+	 * sets isAlive to false
+	 */
+	public void kill()
+	{
+		isAlive=false;
 	}
 	
 }

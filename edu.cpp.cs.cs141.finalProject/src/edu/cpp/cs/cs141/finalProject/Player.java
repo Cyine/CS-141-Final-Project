@@ -13,7 +13,8 @@ public class Player
 	private int xPos;
 	private int yPos;
 	private boolean hasAmmo;
-	private boolean hasOvershield;
+	private int overShieldCharge;
+	private boolean hasRadar;
 	private int lives;
 	
 	/**
@@ -27,13 +28,12 @@ public class Player
 	{
 		setPlayerPos(8,0);
 		hasAmmo=true;
-		hasOvershield=false;
+		overShieldCharge=0;
+		hasRadar=false;
 		lives=3;
 	}
 	
-	/**
-	 * removes ammo from player
-	 */
+	
 	
 	/**------------------------ ------------------------ 
 	 * GET METHODS
@@ -75,19 +75,26 @@ public class Player
 	/**
 	 * @return hasOversheild
 	 */
-	public boolean getHasOvershield()
+	public int getOvershieldCharge()
 	{
-		return hasOvershield;
+		return overShieldCharge;
 	}
 	
+	/**
+	 * @return hasRadar
+	 */
+	public boolean getHasRadar()
+	{
+		return hasRadar;
+	}
 	
-	/**------------------------ ------------------------ 
+	/**------------------------------------------------ 
 	 * MUTATOR METHODS
-	 * ------------------------ ------------------------ 
+	 * ------------------------------------------------ 
 	 */
 	
 	/**
-	 * Fills player ammo
+	 * sets hasAmmo to true
 	 */
 	public void fillAmmo()
 	{
@@ -95,38 +102,69 @@ public class Player
 	}
 	
 	/**
-	 * gives player and overshield
+	 * sets overShield to 6
 	 */
-	public void fillOvershield()
+	public void fillOverShield()
 	{
-		hasOvershield=true;
+		overShieldCharge=6;
 	}
 	
+	/**
+	 * sets hasRadar to true
+	 */
+	public void pickUpRadar()
+	{
+		hasRadar=true;
+	}
+	
+	/**
+	 * @param y
+	 * @param x
+	 * sets player to y,x
+	 */
 	public void setPlayerPos(int y, int x)
 	{
 		xPos=x;
 		yPos=y;
 	}
+	
+	/**
+	 * @param x
+	 * adds x to xPos
+	 */
 	public void changeXPos(int x)
 	{
 		xPos=xPos+x;
 	}
 	
+	/**
+	 * @param y
+	 * adds y to yPos
+	 */
 	public void changeYPos(int y)
 	{
 		yPos=yPos+y;
 	}
 	
 	/**
-	 * takes away player's overshield
+	 * sets overShieldCharge to 0
 	 */
-	public void useOversheild()
+	public void useOverShield()
 	{
-		hasOvershield = false;
+		overShieldCharge = 0;
+	}
+	
+	public void decayOverShield()
+	{
+		if(overShieldCharge>0)
+		{
+			overShieldCharge = overShieldCharge - 1;
+		}
+		
 	}
 	
 	/**
-	 * takes away player's bullet
+	 * sets has ammo to false
 	 */
 	public void shoot()
 	{
@@ -134,11 +172,22 @@ public class Player
 	}
 	
 	/**
-	 * subtracts one life from player
+	 * subtracts one life from lives return -3 if not overshield
+	 * unless player has overshield
+	 * if player has overshield then use overshield return -7
 	 */
-	public void die()
+	public int die()
 	{
-		lives=lives-1;
+		if (overShieldCharge<=0)
+		{
+			lives=lives-1;
+			return -3;
+		}
+		else
+		{
+			useOverShield();
+			return -7;
+		}	
 	}
 	
 }

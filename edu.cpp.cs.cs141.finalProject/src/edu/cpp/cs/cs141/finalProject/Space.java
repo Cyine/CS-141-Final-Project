@@ -45,8 +45,10 @@ public class Space
 		
 	}
 	
-	/**
-	 * changes isVisible to its opposite 
+	/**-----------------------------------------------------------------------
+	 * Toggle Methods
+	 * Toggles whatever is in the name of function 
+	 * -----------------------------------------------------------------------
 	 */
 	public void toggleIsVisible()
 	{
@@ -88,7 +90,8 @@ public class Space
 	{
 		return yPos;
 	}
-	public boolean getIsPlayerOccuyping()
+	
+	public boolean getIsPlayerOccupying()
 	{
 		return isPlayerOccupying;
 	}
@@ -97,10 +100,12 @@ public class Space
 	{
 		return isNinjaOccupying;
 	}
+	
 	public boolean getIsBriefcaseOccupying()
 	{
 		return isBriefcaseOccupying;
 	}
+	
 	public boolean getIsRoom()
 	{
 		return isRoom;
@@ -129,66 +134,70 @@ public class Space
 	 * else show the powerup
 	 * else show nothing "[ ]"
 	 */
-	public String returnString(boolean isDebugModeOn)
+	public String returnString(boolean isDebugModeOn, boolean hasRadar)
 	{	
-		if(isPlayerOccupying==false)
+		if(isPlayerOccupying==false) //if player is not occupying space
 		{
-			if (isVisible==true||isDebugModeOn)
+			if(isBriefcaseOccupying==true&&hasRadar==true) //if briefcase is occupying and radar is true
 			{
-				if(isBriefcaseOccupying==true)
+				return"[b]";
+			}
+			if (isVisible==true||isDebugModeOn) // if debug mode is on/ is visible
+			{
+				if(isBriefcaseOccupying==true&&isDebugModeOn) //if there is briefcase show b
 				{
 					return"[b]";
 				}
-				if(isNinjaOccupying==false)
+				if(isNinjaOccupying==false) // if there is not a ninja in space
 				{
-					if(isRoom==true)
+					if(isRoom==true) //if is room
 					{
-						return"[R]";
+						return"[R]"; //show R
 					}
 					
-					if(powerUp!=null)
+					if(powerUp!=null) //if there is a power up
 					{
 						switch (powerUp.getType())
 						{
-							case "bullet":
-								return "[a]";
+							case "bullet": //if bullet
+								return "[a]"; //return a
 			
-							case "shield":
-								return "[s]";
+							case "shield": //if shield
+								return "[s]"; //return s
 								
-							case "radar":
-								return "[r]";
+							case "radar": //if radar
+								return "[r]"; //return r
 								
 							default:
 								return "[ ]";
 						}
 					}
-					else 
+					else //if debug/visible but nothing in space
 					{
-						return "[ ]";
+						return "[ ]";  //show blank space
 					}
 				}
-				else
+				else //if ninja is there
 				{
-					return"[N]";
+					return"[N]"; //return N
 				}
 			}
-			else
+			else //if debug mode is off
 			{ 
-				if(isRoom==true)
+				if(isRoom==true) //if is room
 				{
 					return "[R]";
 				}
-				return "[*]";
+				return "[*]"; //if is not room
 			}
 		}
 		else
 		{
-			if(isNinjaOccupying)
+			if(isNinjaOccupying) //if player and ninja are in the same space
 			{
 				return "[!]";
 			}
-			return "[P]";
+			return "[P]"; //else return player
 		}
 	}
 
