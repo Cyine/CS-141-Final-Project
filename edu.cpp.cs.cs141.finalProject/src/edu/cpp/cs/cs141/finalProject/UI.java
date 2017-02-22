@@ -433,5 +433,4 @@ public class UI
 	{
 		   return(scanner.next());
 	}
-
 }

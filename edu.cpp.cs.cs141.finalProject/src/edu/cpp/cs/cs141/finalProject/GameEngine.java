@@ -173,13 +173,5 @@ public class GameEngine {
 	{
 		return isGameRunning;
 	}
-	
-	/**
-	 * @return g (GameGrid)
-	 */
-	public GameGrid getGameGrid()
-	{
-		return g;
-	}
 
 }

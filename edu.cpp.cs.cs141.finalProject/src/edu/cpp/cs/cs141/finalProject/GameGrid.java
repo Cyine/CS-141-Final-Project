@@ -9,8 +9,8 @@ public class GameGrid
 	 */
 	private Player player;
 	private Ninja[] ninjas;
-	private boolean isDebugModeOn;
-	private Space[][] grid;
+	private static boolean isDebugModeOn;
+	private static Space[][] grid;
 
 	/**
 	 * sets grid to be a 9x9 array
@@ -53,7 +53,6 @@ public class GameGrid
 	{
 		return ninjas;
 	}
-	
 	/**
 	 * @return isDebugModeOn
 	 */
